@@ -1,0 +1,2 @@
+module HoodpopHelper
+end
