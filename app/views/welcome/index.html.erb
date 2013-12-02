@@ -1,2 +1,10 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<%= form_for :code, url: "/hoodpop" do |f| %>
+<p>
+  <%= f.label :code %><br>
+  <%= f.text_area :code, :size => "80x24" %>
+<p>
+  <%= f.submit "Tokenize" %>
+  <%= f.submit "Parse" %>
+  <%= f.submit "Compile" %>
+</p>
+<% end %>
