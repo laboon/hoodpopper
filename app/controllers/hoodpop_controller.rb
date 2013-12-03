@@ -1,6 +1,15 @@
 class HoodpopController < ApplicationController
   require 'ripper'
 
+  def nodeify(pre, elem)
+    elem = "NIL" if elem.nil?
+     "#{pre}#{elem}"
+  end
+
+  def treeify(arr, pre)
+    arr.map { |elem| (elem.is_a? Array) ? treeify(elem, pre + "-") : nodeify(pre, elem) }
+  end
+
   def add_html_crs(str)
     str.gsub(/\n/, "<p>")
   end
@@ -20,7 +29,7 @@ class HoodpopController < ApplicationController
     when 'Tokenize'
       @code = stringify(Ripper.lex(orig_code))
     when 'Parse'
-      @code = Ripper.sexp(orig_code)
+      @code = stringify(Ripper.sexp(orig_code)) + "<p><p>" + stringify(treeify(Ripper.sexp(orig_code), "").flatten)
     when 'Compile'
       @code = add_html_crs(RubyVM::InstructionSequence.compile(orig_code).disasm)
     end
