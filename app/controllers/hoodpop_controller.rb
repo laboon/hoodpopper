@@ -11,16 +11,20 @@ class HoodpopController < ApplicationController
   end
 
   def add_html_crs(str)
-    str.gsub(/\n/, "<p>")
+    str.gsub(/\n/, "<br>")
   end
 
   def stringify(arr)
      to_return = ""
      arr.each do |elem|
-       to_return += elem.to_s + "<p>"
+       to_return += elem.to_s + "<br>"
      end
      to_return
    end
+
+  def arrayify(str)
+    str.split("\n")
+  end
 
   def index
     @op = params[:commit]
@@ -29,12 +33,10 @@ class HoodpopController < ApplicationController
     when 'Tokenize'
       @code = stringify(Ripper.lex(orig_code))
     when 'Parse'
-      @code = stringify(Ripper.sexp(orig_code)) + "<p><p>" + stringify(treeify(Ripper.sexp(orig_code), "").flatten)
+      @code = stringify(Ripper.sexp(orig_code)) + "<p>" + stringify(treeify(Ripper.sexp(orig_code), "").flatten)
     when 'Compile'
-      @code = add_html_crs(RubyVM::InstructionSequence.compile(orig_code).disasm)
+      @code = arrayify(RubyVM::InstructionSequence.compile(orig_code).disasm)
     end
-    puts ">>>> "
-    puts @code
   end
 
 end

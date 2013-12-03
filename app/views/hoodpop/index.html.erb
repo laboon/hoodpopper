@@ -1,8 +1,16 @@
 <h1>Hood Popped -
 <%= @op %>
 Operation</h1>
+<p>
 <code>
-<%=raw @code %>
+<% if @op != 'Compile' then %>
+  <%=raw @code %>
+<% else %>
+  <% @code.each do |line| %>
+    <%=h line %>
+    <br>
+  <% end %>
+<% end %>
 </code>
 <p>
 <%= link_to_function "Back", "history.back()" %>
