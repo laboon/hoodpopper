@@ -1,4 +1,0 @@
-class HoodpopController < ApplicationController
-  def index
-  end
-end
